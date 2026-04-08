@@ -1,10 +1,74 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+// 生成 500 个带随机样式的“温卓是猪”
+const chaosItems = Array.from({ length: 500 }).map(() => {
+  const isVertical = Math.random() > 0.5; // 一半横着一半竖着
+  const fontSize = Math.floor(Math.random() * 60 + 10); // 字体大小 10px 到 70px
+  const opacity = (Math.random() * 0.7 + 0.3).toFixed(2); // 随机透明度
+  const rotate = Math.floor(Math.random() * 20 - 10); // 稍微歪七扭八一点（-10度到10度）
+  
+  return {
+    writingMode: isVertical ? 'vertical-rl' : 'horizontal-tb',
+    fontSize: `${fontSize}px`,
+    opacity: opacity,
+    transform: `rotate(${rotate}deg)`,
+  };
+});
 ---
 
 <Layout>
-  <main style="padding: 2rem; font-family: sans-serif;">
-    <h1>你好，世界！🌍</h1>
-    <p>这是我的第一个 Astro 作品集网页，拉斐尔与我同在 🐈。</p>
+  <main class="chaos-container">
+    {chaosItems.map(style => (
+      <span 
+        class="chaos-text"
+        style={`
+          writing-mode: ${style.writingMode}; 
+          font-size: ${style.fontSize}; 
+          opacity: ${style.opacity};
+          transform: ${style.transform};
+        `}
+      >
+        温卓是猪
+      </span>
+    ))}
   </main>
 </Layout>
+
+<style>
+  :global(body) {
+    margin: 0;
+    padding: 0;
+    background-color: #1a1a1a; /* 酷炫黑底 */
+    color: #ffffff; /* 白字 */
+    font-family: 'Microsoft YaHei', sans-serif;
+  }
+  
+  .chaos-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .chaos-text {
+    display: inline-block;
+    font-weight: 900;
+    margin: -5px; /* 让字挤在一起，更混乱 */
+    cursor: crosshair;
+    transition: all 0.3s ease;
+  }
+
+  /* 鼠标悬停时会变红放大，增加互动感 */
+  .chaos-text:hover {
+    color: #ff003c;
+    transform: scale(1.5) rotate(0deg) !important;
+    z-index: 999;
+    text-shadow: 0 0 10px #ff003c;
+  }
+</style>
