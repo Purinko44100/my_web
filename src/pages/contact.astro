@@ -40,11 +40,33 @@ const channels = [
 <style>
 	.contact-grid {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
+		margin-top: 10px;
+	}
+
+	.contact-hero {
+		transform: translateX(14px) rotate(-0.7deg);
+	}
+
+	.contact-grid :global(.contact-card:nth-child(2)) {
+		margin-top: 52px;
+	}
+
+	.contact-grid :global(.contact-card:nth-child(3)) {
+		margin-top: 16px;
 	}
 
 	@media (max-width: 900px) {
+		.contact-hero {
+			transform: none;
+		}
+
 		.contact-grid {
 			grid-template-columns: 1fr;
+		}
+
+		.contact-grid :global(.contact-card:nth-child(2)),
+		.contact-grid :global(.contact-card:nth-child(3)) {
+			margin-top: 0;
 		}
 	}
 </style>

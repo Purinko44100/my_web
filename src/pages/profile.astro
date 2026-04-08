@@ -56,19 +56,40 @@ const skills = ['Creative Direction', 'UI Layout', 'Astro', 'Responsive Design',
 		gap: 24px;
 	}
 
+	.intro {
+		transform: translateX(-8px) rotate(0.9deg);
+	}
+
 	.intro__main,
 	.intro__side {
 		display: grid;
 		gap: 18px;
 	}
 
+	.intro__side {
+		margin-top: 42px;
+	}
+
 	.timeline-card {
 		min-height: 220px;
 	}
 
+	:global(.card-grid .timeline-card:nth-child(2)) {
+		margin-top: 48px;
+	}
+
 	@media (max-width: 900px) {
+		.intro {
+			transform: none;
+		}
+
 		.intro__grid {
 			grid-template-columns: 1fr;
+		}
+
+		.intro__side,
+		:global(.card-grid .timeline-card:nth-child(2)) {
+			margin-top: 0;
 		}
 	}
 </style>
