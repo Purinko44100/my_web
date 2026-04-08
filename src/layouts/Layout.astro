@@ -1,23 +1,443 @@
+---
+const {
+	title = 'Portfolio Control Surface',
+	description = 'Marathon-inspired interface for profile, work, and contact information.',
+} = Astro.props;
+
+const pathname = Astro.url.pathname;
+
+const navItems = [
+	{ href: '/', label: '首页', key: 'home' },
+	{ href: '/profile', label: '个人简介', key: 'profile' },
+	{ href: '/projects', label: '作品', key: 'projects' },
+	{ href: '/contact', label: '联系方式', key: 'contact' },
+];
+---
+
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+			rel="stylesheet"
+		/>
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<meta name="description" content={description} />
+		<title>{title}</title>
 	</head>
 	<body>
-		<slot />
+		<div class="shell">
+			<div class="shell__noise"></div>
+			<div class="shell__grid"></div>
+			<header class="topbar">
+				<a class="brand" href="/">
+					<span class="brand__eyebrow">ORBITAL DOSSIER</span>
+					<span class="brand__title">WENZHUO / PORTFOLIO</span>
+				</a>
+				<nav class="nav" aria-label="主导航">
+					{navItems.map((item) => {
+						const isActive =
+							item.href === '/'
+								? pathname === '/'
+								: pathname.startsWith(item.href);
+
+						return (
+							<a class:list={["nav__link", { 'nav__link--active': isActive }]} href={item.href}>
+								<span class="nav__index">0{navItems.indexOf(item) + 1}</span>
+								<span>{item.label}</span>
+							</a>
+						);
+					})}
+				</nav>
+			</header>
+
+			<main class="page-frame">
+				<slot />
+			</main>
+
+			<footer class="footer">
+				<p>Signal status: OPEN / Creative systems, interface direction, front-end builds.</p>
+				<p>Built with Astro. Visual language references retro-futurist tactical UI, without using game assets.</p>
+			</footer>
+		</div>
 	</body>
 </html>
 
 <style>
-	html,
+	:root {
+		--bg: #071013;
+		--bg-soft: rgba(12, 29, 33, 0.82);
+		--panel: rgba(7, 20, 24, 0.78);
+		--panel-strong: rgba(8, 25, 30, 0.92);
+		--line: rgba(128, 245, 214, 0.22);
+		--line-strong: rgba(128, 245, 214, 0.55);
+		--text: #e8fff6;
+		--muted: rgba(232, 255, 246, 0.72);
+		--accent: #8cf5d6;
+		--accent-warm: #ff8d5c;
+		--danger: #ff5f5f;
+		--max-width: 1240px;
+		--shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
+	}
+
+	html {
+		background:
+			radial-gradient(circle at top, rgba(17, 89, 86, 0.38), transparent 36%),
+			radial-gradient(circle at 80% 20%, rgba(255, 141, 92, 0.12), transparent 20%),
+			linear-gradient(180deg, #081316 0%, #050c10 100%);
+	}
+
 	body {
 		margin: 0;
-		width: 100%;
-		height: 100%;
+		min-height: 100vh;
+		color: var(--text);
+		font-family: 'IBM Plex Sans', sans-serif;
+		letter-spacing: 0.01em;
+	}
+
+	a {
+		color: inherit;
+	}
+
+	.shell {
+		position: relative;
+		min-height: 100vh;
+		padding: 24px;
+		box-sizing: border-box;
+		overflow: hidden;
+	}
+
+	.shell__noise,
+	.shell__grid {
+		position: fixed;
+		inset: 0;
+		pointer-events: none;
+	}
+
+	.shell__noise {
+		background-image:
+			radial-gradient(rgba(255, 255, 255, 0.08) 0.6px, transparent 0.6px),
+			radial-gradient(rgba(255, 255, 255, 0.04) 0.6px, transparent 0.6px);
+		background-position: 0 0, 12px 12px;
+		background-size: 24px 24px;
+		opacity: 0.06;
+	}
+
+	.shell__grid {
+		background-image:
+			linear-gradient(rgba(140, 245, 214, 0.08) 1px, transparent 1px),
+			linear-gradient(90deg, rgba(140, 245, 214, 0.08) 1px, transparent 1px);
+		background-size: 72px 72px;
+		mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.8), transparent 92%);
+	}
+
+	.topbar,
+	.page-frame,
+	.footer {
+		position: relative;
+		z-index: 1;
+		max-width: var(--max-width);
+		margin: 0 auto;
+	}
+
+	.topbar {
+		display: grid;
+		grid-template-columns: 1.1fr 1.4fr;
+		gap: 24px;
+		align-items: start;
+		padding: 20px 24px;
+		border: 1px solid var(--line);
+		background: linear-gradient(180deg, rgba(8, 28, 33, 0.92), rgba(5, 15, 18, 0.8));
+		box-shadow: var(--shadow);
+		clip-path: polygon(0 0, calc(100% - 28px) 0, 100% 28px, 100% 100%, 0 100%);
+		backdrop-filter: blur(18px);
+	}
+
+	.brand {
+		display: inline-flex;
+		flex-direction: column;
+		gap: 8px;
+		text-decoration: none;
+	}
+
+	.brand__eyebrow,
+	.brand__title,
+	.nav__index,
+	.footer p {
+		font-family: 'IBM Plex Mono', monospace;
+		text-transform: uppercase;
+	}
+
+	.brand__eyebrow {
+		font-size: 0.8rem;
+		color: var(--accent);
+		letter-spacing: 0.28em;
+	}
+
+	.brand__title {
+		font-family: 'Chakra Petch', sans-serif;
+		font-size: clamp(1.5rem, 3vw, 2.5rem);
+		line-height: 0.96;
+		letter-spacing: 0.08em;
+	}
+
+	.nav {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 12px;
+	}
+
+	.nav__link {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 16px;
+		padding: 14px 16px;
+		text-decoration: none;
+		border: 1px solid var(--line);
+		background: rgba(9, 21, 26, 0.55);
+		color: var(--muted);
+		transition:
+			transform 180ms ease,
+			border-color 180ms ease,
+			background 180ms ease,
+			color 180ms ease;
+	}
+
+	.nav__link:hover,
+	.nav__link--active {
+		transform: translateY(-1px);
+		border-color: var(--line-strong);
+		background: linear-gradient(90deg, rgba(15, 40, 44, 0.95), rgba(9, 21, 26, 0.82));
+		color: var(--text);
+	}
+
+	.nav__index {
+		font-size: 0.78rem;
+		color: var(--accent);
+	}
+
+	.page-frame {
+		padding: 24px 0 32px;
+	}
+
+	.footer {
+		display: flex;
+		justify-content: space-between;
+		gap: 24px;
+		padding: 0 8px 12px;
+		color: var(--muted);
+	}
+
+	.footer p {
+		margin: 0;
+		font-size: 0.76rem;
+		letter-spacing: 0.12em;
+	}
+
+	:global(.page) {
+		display: grid;
+		gap: 24px;
+	}
+
+	:global(.hud-panel) {
+		position: relative;
+		padding: 24px;
+		border: 1px solid var(--line);
+		background: linear-gradient(180deg, rgba(7, 20, 24, 0.88), rgba(5, 14, 18, 0.82));
+		box-shadow: var(--shadow);
+		clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 0 100%);
+		backdrop-filter: blur(16px);
+	}
+
+	:global(.hud-panel::before) {
+		content: '';
+		position: absolute;
+		top: 14px;
+		right: 14px;
+		width: 54px;
+		height: 1px;
+		background: linear-gradient(90deg, transparent, var(--accent));
+	}
+
+	:global(.eyebrow) {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		margin-bottom: 14px;
+		font-family: 'IBM Plex Mono', monospace;
+		font-size: 0.78rem;
+		text-transform: uppercase;
+		letter-spacing: 0.2em;
+		color: var(--accent);
+	}
+
+	:global(.eyebrow::before) {
+		content: '';
+		display: inline-block;
+		width: 28px;
+		height: 1px;
+		background: var(--accent);
+	}
+
+	:global(h1),
+	:global(h2),
+	:global(h3) {
+		margin: 0;
+		font-family: 'Chakra Petch', sans-serif;
+		font-weight: 600;
+		letter-spacing: 0.04em;
+	}
+
+	:global(h1) {
+		font-size: clamp(2.8rem, 7vw, 5.8rem);
+		line-height: 0.92;
+	}
+
+	:global(h2) {
+		font-size: clamp(1.5rem, 3vw, 2.2rem);
+	}
+
+	:global(p) {
+		margin: 0;
+		color: var(--muted);
+		line-height: 1.7;
+	}
+
+	:global(.stat-grid),
+	:global(.card-grid) {
+		display: grid;
+		gap: 16px;
+	}
+
+	:global(.stat-grid) {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	:global(.card-grid) {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	:global(.stat),
+	:global(.card),
+	:global(.contact-card) {
+		padding: 18px;
+		border: 1px solid var(--line);
+		background: rgba(6, 16, 20, 0.72);
+	}
+
+	:global(.stat strong),
+	:global(.tag),
+	:global(.meta) {
+		font-family: 'IBM Plex Mono', monospace;
+		text-transform: uppercase;
+	}
+
+	:global(.stat strong) {
+		display: block;
+		margin-bottom: 10px;
+		font-size: 1.8rem;
+		color: var(--text);
+	}
+
+	:global(.tag-list) {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px;
+	}
+
+	:global(.tag) {
+		padding: 7px 10px;
+		border: 1px solid rgba(140, 245, 214, 0.18);
+		font-size: 0.74rem;
+		letter-spacing: 0.08em;
+		color: var(--accent);
+	}
+
+	:global(.button-row) {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 14px;
+	}
+
+	:global(.button) {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 12px;
+		padding: 14px 18px;
+		text-decoration: none;
+		border: 1px solid var(--line-strong);
+		background: linear-gradient(90deg, rgba(140, 245, 214, 0.12), rgba(140, 245, 214, 0.02));
+		font-family: 'IBM Plex Mono', monospace;
+		font-size: 0.82rem;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		transition: transform 180ms ease, background 180ms ease;
+	}
+
+	:global(.button:hover) {
+		transform: translateY(-2px);
+		background: linear-gradient(90deg, rgba(140, 245, 214, 0.22), rgba(140, 245, 214, 0.05));
+	}
+
+	:global(.button--secondary) {
+		border-color: rgba(255, 141, 92, 0.45);
+		background: linear-gradient(90deg, rgba(255, 141, 92, 0.12), rgba(255, 141, 92, 0.03));
+	}
+
+	:global(.button--secondary:hover) {
+		background: linear-gradient(90deg, rgba(255, 141, 92, 0.2), rgba(255, 141, 92, 0.06));
+	}
+
+	:global(.meta) {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		color: var(--accent);
+		font-size: 0.76rem;
+		letter-spacing: 0.12em;
+	}
+
+	:global(.meta::before) {
+		content: '';
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		background: var(--accent);
+		box-shadow: 0 0 16px rgba(140, 245, 214, 0.55);
+	}
+
+	@media (max-width: 900px) {
+		.topbar {
+			grid-template-columns: 1fr;
+		}
+
+		.nav,
+		:global(.card-grid),
+		:global(.stat-grid) {
+			grid-template-columns: 1fr;
+		}
+
+		.footer {
+			flex-direction: column;
+		}
+	}
+
+	@media (max-width: 640px) {
+		.shell {
+			padding: 16px;
+		}
+
+		.topbar,
+		:global(.hud-panel) {
+			padding: 18px;
+		}
 	}
 </style>

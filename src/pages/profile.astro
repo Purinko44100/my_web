@@ -1,0 +1,74 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const timeline = [
+	{ year: '2019', detail: '开始系统性做网页视觉与前端整合，关注信息层级和页面情绪。' },
+	{ year: '2021', detail: '把品牌设计思维带入产品页与作品集，把叙事和结构当成同一件事。' },
+	{ year: '2024', detail: '更聚焦概念型网站、展示型站点和高识别度 UI 语言的建立。' },
+];
+
+const skills = ['Creative Direction', 'UI Layout', 'Astro', 'Responsive Design', 'Design Systems', 'Interaction Tone'];
+---
+
+<Layout title="个人简介 | Wenzhuo Portfolio" description="Profile page for Wenzhuo portfolio.">
+	<section class="page">
+		<section class="hud-panel intro">
+			<div class="eyebrow">Profile / Operator Record</div>
+			<div class="intro__grid">
+				<div class="intro__main">
+					<h1>把页面当作叙事界面，而不是静态排版。</h1>
+					<p>
+						我关注的是视觉系统与前端实现之间的那一层翻译工作：如何让概念不在落地阶段损耗，
+						如何让内容表达和组件结构同时成立。
+					</p>
+					<p>
+						相对偏好的方向是科幻、工业、任务面板、信息终端这类具有强烈结构感的界面风格，
+						但最终目标不是做“像某个作品”的皮肤，而是做出适合内容本身的秩序与气质。
+					</p>
+				</div>
+				<aside class="intro__side">
+					<div class="contact-card">
+						<div class="eyebrow">Core stack</div>
+						<div class="tag-list">
+							{skills.map((skill) => <span class="tag">{skill}</span>)}
+						</div>
+					</div>
+				</aside>
+			</div>
+		</section>
+
+		<section class="card-grid">
+			{timeline.map((item) => (
+				<article class="card timeline-card">
+					<p class="meta">{item.year}</p>
+					<h2>阶段记录</h2>
+					<p>{item.detail}</p>
+				</article>
+			))}
+		</section>
+	</section>
+</Layout>
+
+<style>
+	.intro__grid {
+		display: grid;
+		grid-template-columns: 1.45fr 0.85fr;
+		gap: 24px;
+	}
+
+	.intro__main,
+	.intro__side {
+		display: grid;
+		gap: 18px;
+	}
+
+	.timeline-card {
+		min-height: 220px;
+	}
+
+	@media (max-width: 900px) {
+		.intro__grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

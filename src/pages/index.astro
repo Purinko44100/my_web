@@ -1,74 +1,117 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-// 生成 500 个带随机样式的“温卓是猪”
-const chaosItems = Array.from({ length: 500 }).map(() => {
-  const isVertical = Math.random() > 0.5; // 一半横着一半竖着
-  const fontSize = Math.floor(Math.random() * 60 + 10); // 字体大小 10px 到 70px
-  const opacity = (Math.random() * 0.7 + 0.3).toFixed(2); // 随机透明度
-  const rotate = Math.floor(Math.random() * 20 - 10); // 稍微歪七扭八一点（-10度到10度）
-  
-  return {
-    writingMode: isVertical ? 'vertical-rl' : 'horizontal-tb',
-    fontSize: `${fontSize}px`,
-    opacity: opacity,
-    transform: `rotate(${rotate}deg)`,
-  };
-});
+const stats = [
+	{ value: '06+', label: 'Years building visual systems and product interfaces' },
+	{ value: '18', label: 'Projects shipped across web, brand, and interactive installations' },
+	{ value: '24h', label: 'Typical response window for new collaboration requests' },
+];
+
+const pillars = [
+	{
+		title: 'Interface Direction',
+		text: '将信息架构、视觉节奏和交互反馈收拢成统一的控制界面，强调辨识度和阅读效率。',
+	},
+	{
+		title: 'Front-end Systems',
+		text: '用 Astro、组件化结构和可维护样式系统，把概念页落成稳定可扩展的真实页面。',
+	},
+	{
+		title: 'Narrative Motion',
+		text: '通过层次、分区、对比和少量动势，让页面更像一块任务面板，而不是普通信息堆叠。',
+	},
+];
 ---
 
-<Layout>
-  <main class="chaos-container">
-    {chaosItems.map(style => (
-      <span 
-        class="chaos-text"
-        style={`
-          writing-mode: ${style.writingMode}; 
-          font-size: ${style.fontSize}; 
-          opacity: ${style.opacity};
-          transform: ${style.transform};
-        `}
-      >
-        温卓是猪
-      </span>
-    ))}
-  </main>
+<Layout title="首页 | Wenzhuo Portfolio" description="Marathon-inspired portfolio homepage.">
+	<section class="page">
+		<section class="hud-panel hero">
+			<div class="eyebrow">Primary Interface</div>
+			<div class="hero__grid">
+				<div class="hero__content">
+					<p class="meta">System online / Personal site</p>
+					<h1>未来感战术界面语汇下的个人作品站。</h1>
+					<p class="hero__lead">
+						这个站点以复古未来主义 HUD 为基底，展示个人简介、项目案例与合作入口。
+						重点不是复刻游戏界面，而是借用其冷静、模块化、任务导向的视觉逻辑。
+					</p>
+					<div class="button-row">
+						<a class="button" href="/projects">查看作品矩阵</a>
+						<a class="button button--secondary" href="/contact">发起联系</a>
+					</div>
+				</div>
+				<div class="hero__aside">
+					<div class="hero__module">
+						<span class="meta">Current focus</span>
+						<h2>视觉系统、作品表达、前端落地</h2>
+						<p>适合个人品牌、数字作品集、展示型官网和概念驱动的内容站。</p>
+					</div>
+					<div class="tag-list">
+						<span class="tag">Astro</span>
+						<span class="tag">Art Direction</span>
+						<span class="tag">UI Systems</span>
+						<span class="tag">Motion Tone</span>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="stat-grid">
+			{stats.map((item) => (
+				<div class="stat">
+					<strong>{item.value}</strong>
+					<p>{item.label}</p>
+				</div>
+			))}
+		</section>
+
+		<section class="card-grid">
+			{pillars.map((pillar) => (
+				<article class="card">
+					<div class="eyebrow">Capability</div>
+					<h2>{pillar.title}</h2>
+					<p>{pillar.text}</p>
+				</article>
+			))}
+		</section>
+	</section>
 </Layout>
 
 <style>
-  :global(body) {
-    margin: 0;
-    padding: 0;
-    background-color: #1a1a1a; /* 酷炫黑底 */
-    color: #ffffff; /* 白字 */
-    font-family: 'Microsoft YaHei', sans-serif;
-  }
-  
-  .chaos-container {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    width: 100vw;
-    min-height: 100vh;
-    padding: 20px;
-    box-sizing: border-box;
-    overflow: hidden;
-  }
+	.hero__grid {
+		display: grid;
+		grid-template-columns: 1.5fr 0.9fr;
+		gap: 24px;
+		align-items: stretch;
+	}
 
-  .chaos-text {
-    display: inline-block;
-    font-weight: 900;
-    margin: -5px; /* 让字挤在一起，更混乱 */
-    cursor: crosshair;
-    transition: all 0.3s ease;
-  }
+	.hero__content,
+	.hero__aside {
+		display: grid;
+		gap: 20px;
+	}
 
-  /* 鼠标悬停时会变红放大，增加互动感 */
-  .chaos-text:hover {
-    color: #ff003c;
-    transform: scale(1.5) rotate(0deg) !important;
-    z-index: 999;
-    text-shadow: 0 0 10px #ff003c;
-  }
+	.hero__lead {
+		max-width: 62ch;
+		font-size: 1.05rem;
+	}
+
+	.hero__aside {
+		padding: 20px;
+		border: 1px solid rgba(140, 245, 214, 0.16);
+		background:
+			linear-gradient(180deg, rgba(8, 24, 29, 0.96), rgba(7, 19, 23, 0.84)),
+			radial-gradient(circle at top right, rgba(255, 141, 92, 0.2), transparent 32%);
+	}
+
+	.hero__module {
+		display: grid;
+		gap: 14px;
+	}
+
+	@media (max-width: 900px) {
+		.hero__grid {
+			grid-template-columns: 1fr;
+		}
+	}
 </style>

@@ -1,0 +1,50 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const channels = [
+	{ label: 'Email', value: 'hello@example.com', note: '适合项目合作、需求沟通、排期确认。' },
+	{ label: 'WeChat', value: 'your-wechat-id', note: '适合快速同步、短周期协作和即时反馈。' },
+	{ label: 'GitHub', value: 'github.com/your-name', note: '适合查看代码、项目记录与公开仓库。' },
+];
+---
+
+<Layout title="联系方式 | Wenzhuo Portfolio" description="Contact page for Wenzhuo portfolio.">
+	<section class="page">
+		<section class="hud-panel contact-hero">
+			<div class="eyebrow">Contact / Open Channel</div>
+			<h1>如果你想一起做点有辨识度的页面，可以从这里接入。</h1>
+			<p>
+				适合联系的内容包括个人网站改版、展示型项目页面、视觉系统统一、前端落地合作，以及作品集叙事优化。
+			</p>
+		</section>
+
+		<section class="card-grid contact-grid">
+			{channels.map((channel) => (
+				<article class="contact-card">
+					<div class="eyebrow">{channel.label}</div>
+					<h2>{channel.value}</h2>
+					<p>{channel.note}</p>
+				</article>
+			))}
+		</section>
+
+		<section class="hud-panel">
+			<div class="eyebrow">Brief Template</div>
+			<p>
+				如果你准备发需求，建议直接附上项目目标、上线时间、参考方向、现有素材情况，以及你最希望我解决的一个核心问题。
+			</p>
+		</section>
+	</section>
+</Layout>
+
+<style>
+	.contact-grid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	@media (max-width: 900px) {
+		.contact-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

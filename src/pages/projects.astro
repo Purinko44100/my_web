@@ -1,0 +1,77 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const projects = [
+	{
+		code: 'PX-01',
+		title: 'Portfolio Interface Refresh',
+		description: '以高密度信息面板为核心，重建个人站首页结构，强调首屏辨识度和模块层次。',
+		tags: ['Art Direction', 'UI System', 'Astro'],
+	},
+	{
+		code: 'PX-02',
+		title: 'Launch Campaign Microsite',
+		description: '将品牌叙事压缩到单页体验中，用节奏、对比和版式控制用户阅读路径。',
+		tags: ['Narrative', 'Responsive', 'Motion'],
+	},
+	{
+		code: 'PX-03',
+		title: 'Creative Studio Case Archive',
+		description: '为作品集做统一归档界面，兼顾筛选、预览、项目摘要与扩展性。',
+		tags: ['Content Design', 'Components', 'Grid'],
+	},
+	{
+		code: 'PX-04',
+		title: 'Concept Landing Page',
+		description: '把世界观感、信息层级和视觉氛围整合成一个具有明确记忆点的着陆页。',
+		tags: ['Concept', 'Front-end', 'Visual Tone'],
+	},
+];
+---
+
+<Layout title="作品 | Wenzhuo Portfolio" description="Project overview page.">
+	<section class="page">
+		<section class="hud-panel">
+			<div class="eyebrow">Projects / Mission Archive</div>
+			<h1>项目像任务档案一样被归档、读取和比较。</h1>
+			<p>
+				这一页用卡片矩阵展示代表性项目方向。现在先放结构化占位内容，后续可以替换成你的真实作品、截图、链接与职责说明。
+			</p>
+		</section>
+
+		<section class="card-grid project-grid">
+			{projects.map((project) => (
+				<article class="card project-card">
+					<p class="meta">{project.code}</p>
+					<h2>{project.title}</h2>
+					<p>{project.description}</p>
+					<div class="tag-list">
+						{project.tags.map((tag) => <span class="tag">{tag}</span>)}
+					</div>
+				</article>
+			))}
+		</section>
+	</section>
+</Layout>
+
+<style>
+	.project-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.project-card {
+		display: grid;
+		gap: 16px;
+		min-height: 280px;
+		align-content: start;
+		background:
+			linear-gradient(180deg, rgba(8, 23, 27, 0.92), rgba(5, 14, 18, 0.88)),
+			radial-gradient(circle at top right, rgba(140, 245, 214, 0.12), transparent 28%);
+	}
+
+	@media (max-width: 900px) {
+		.project-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
